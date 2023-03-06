@@ -3,6 +3,7 @@
 import inquirer from "inquirer";
 import chalk from "chalk";
 import chalkAnimation from "chalk-animation";
+import { exit } from "process";
 
 
 const sleep = ()=>{
@@ -49,8 +50,8 @@ figlet('CALCULATOR', function(err: any, data: any) {
 */
 
 function validateNumber (input: number): boolean{
-    const isNum: boolean = !isNaN(input);
-    return isNum;
+    //const isNum: boolean = !isNaN(input);
+    return !isNaN(input);
 }
 async function getOperation(){
     const answers = await inquirer
@@ -67,11 +68,13 @@ async function getOperation(){
         name:"num1",
         message:"Enter 1st Digit: ",
         validate: validateNumber
+        
     },
     {
         type:"number",
         name:"num2",
-        message:"Enter 2nd Digit: "
+        message:"Enter 2nd Digit: ",
+        validate: validateNumber
     }
   ]);
 
@@ -108,7 +111,7 @@ async function restartOps(){
         .prompt({
             type: "input",
             name: "restart",
-            message:"Continue...? (Y/N): "
+            message:"Restart...? (Y/N): "
         })
     } while(again.restart == 'y'  ||
             again.restart == 'Y'  ||

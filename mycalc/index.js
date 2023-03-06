@@ -40,8 +40,8 @@ figlet('CALCULATOR', function(err: any, data: any) {
 });
 */
 function validateNumber(input) {
-    const isNum = !isNaN(input);
-    return isNum;
+    //const isNum: boolean = !isNaN(input);
+    return !isNaN(input);
 }
 async function getOperation() {
     const answers = await inquirer
@@ -57,13 +57,13 @@ async function getOperation() {
             type: "number",
             name: "num1",
             message: "Enter 1st Digit: ",
-            //default: () => {},
             validate: validateNumber
         },
         {
             type: "number",
             name: "num2",
-            message: "Enter 2nd Digit: "
+            message: "Enter 2nd Digit: ",
+            validate: validateNumber
         }
     ]);
     //.then((answers) => {
@@ -98,7 +98,7 @@ async function restartOps() {
             .prompt({
             type: "input",
             name: "restart",
-            message: "Continue...? (Y/N): "
+            message: "Restart...? (Y/N): "
         });
     } while (again.restart == 'y' ||
         again.restart == 'Y' ||
