@@ -13,10 +13,53 @@ async function welcome() {
     rainbowTitle.stop();
 }
 await welcome();
+let user = {
+    name: "Ahmed Raza",
+    pin: 1212,
+    balance: 100000
+};
 const pinResp = await inquirer.prompt([
     {
         message: "Enter PIN Number: ",
-        name: "pin"
+        name: "pin",
+        type: "password"
     }
 ]);
-console.log(pinResp);
+//console.log(pinResp);
+if (Number(pinResp.pin) !== user.pin) {
+    console.log("You entered WRONG pin!");
+}
+else {
+    const atmTransaction = await inquirer.prompt([
+        {
+            name: "selectOpt",
+            message: "Select Option",
+            type: "list",
+            choices: ["Cash Withdraw", "Fast Cash", "Balance Inquiry"]
+        },
+        {
+            name: "amount",
+            message: "Please Enter Your Amount: ",
+            when(atmTransaction) {
+                return atmTransaction.selectOpt == "Cash Withdraw";
+            },
+        },
+        {
+            name: "amount",
+            message: "Please Select Amount: ",
+            type: "list",
+            choices: ["500", "1000", "2000", "3000", "5000", "10000"],
+            when(atmTransaction) {
+                return atmTransaction.selectOpt == "Fast Cash";
+            },
+        },
+    ]);
+    //console.log(atmTransaction);
+    if (atmTransaction.selectOpt == "Balance Inquiry") {
+        console.log(`Your New Balance is: Rs.  ${user.balance}`);
+    }
+    else {
+        user.balance -= atmTransaction.amount;
+        console.log(`Your New Balance is: Rs.  ${user.balance}`);
+    }
+}
