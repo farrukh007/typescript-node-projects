@@ -20,12 +20,69 @@ async function welcome(){
 
 await welcome();
 
-const answer = await inquirer.prompt([
-    {
-        name: "guessNum",
-        type: "number",
-        message: "Enter Number: "
-    }
-]);
+interface answerType {
+    guessNum: number
+}
 
-console.log(answer);
+async function guessNumber(){
+    let realNum: number = Math.floor(Math.random() * 10 + 1);
+    const answer: answerType = await inquirer.prompt([
+        {
+            name: "guessNum",
+            type: "number",
+            message: "Enter Number: "
+        }
+    ]);
+
+    if (answer.guessNum === realNum){
+        console.log("You guess correctly!");
+        console.log("The real Number was :", realNum);
+    }
+    else{
+        console.log("You guess wrongly!");
+        console.log("The real Number was :", realNum);
+    }
+}
+
+/*
+interface againType {
+    restart: string
+}
+
+async function playAgain(){
+    do{
+        await guessNumber();
+        const again: againType = await inquirer.prompt([
+            {
+            type: "input",
+            name: "restart",
+            message:"Play again (Y/N): "
+            }
+        ]);
+    } while(again.restart == 'y'  ||
+            again.restart == 'Y'  ||
+            again.restart == 'yes'||
+            again.restart == 'YES')
+}
+*/
+
+
+async function playAgain(){
+    do{
+        await guessNumber();
+        var again = await inquirer.prompt([
+            {
+            type: "input",
+            name: "restart",
+            message:"Play again (Y/N): "
+            }
+        ]);
+    } while(again.restart == 'y'  ||
+            again.restart == 'Y'  ||
+            again.restart == 'yes'||
+            again.restart == 'YES')
+}
+
+await playAgain();
+
+
